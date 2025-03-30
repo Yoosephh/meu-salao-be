@@ -1,13 +1,11 @@
 package com.meusalao.api.models;
 
-import java.time.LocalDateTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.*;
 
+@Table(name = "tables")
+@Entity
 public class Tables {
   public enum TableStatus {
     LIVRE, OCUPADA, RESERVADA
@@ -17,6 +15,9 @@ public class Tables {
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
   
+  @OneToMany(mappedBy = "table")
+  private List<Command> commands = new ArrayList<>();
+
   @Column(nullable = false, unique = true)
   private int number;
 
@@ -24,8 +25,30 @@ public class Tables {
   @Enumerated(EnumType.STRING)
   private TableStatus status;
 
-  private String details; 
+  @Column
+  private String details;
 
-  private LocalDateTime dateOpening;
-  private LocalDateTime dateClosing; 
+  public boolean isOccupied() {
+    return this.commands.stream().anyMatch(c -> c.getStatus() == Command.CommandStatus.ABERTA);
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public Integer getNumber() {
+    return number;
+  }
+
+  public TableStatus getStatus() {
+    return status;
+  }
+
+  public String getDetails() {
+    return details;
+  }
+
+  public List<Command> getCommands() {
+    return commands;
+  }
 }
