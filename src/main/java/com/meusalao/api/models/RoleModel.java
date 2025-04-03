@@ -17,14 +17,13 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="roles")
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class RoleModel {
   
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
+  @GeneratedValue(strategy=GenerationType.UUID)
   private String id;
 
   @Enumerated(EnumType.STRING)

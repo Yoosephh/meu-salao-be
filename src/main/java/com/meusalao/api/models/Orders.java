@@ -11,12 +11,12 @@ import lombok.*;
 @AllArgsConstructor
 @Setter
 @Builder
-@Entity(name = "orders")
-@Table(name = "orders")
+@Entity(name="orders")
+@Table(name="orders")
 public class Orders {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.UUID)
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "comanda_id", nullable = false)

@@ -12,13 +12,12 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
-@Builder
 @Entity(name = "commands")
 @Table(name = "commands")
 public class Command {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.UUID)
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "table_id", nullable = false)
