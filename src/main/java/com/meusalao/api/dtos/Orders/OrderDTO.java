@@ -1,4 +1,4 @@
-package com.meusalao.api.dtos;
+package com.meusalao.api.dtos.Orders;
 
 import java.math.BigDecimal;
 

@@ -5,9 +5,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import lombok.*;
 import jakarta.persistence.*;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Builder
 @Entity(name = "commands")
 @Table(name = "commands")
 public class Command {
@@ -20,33 +25,28 @@ public class Command {
     private Tables table;
 
     @Column(nullable = false)
+    private Integer commandNumber;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private CommandStatus status;
 
     @Column(nullable = false)
-    private LocalDateTime dataAbertura;
+    private LocalDateTime dateOpenning;
 
-    private LocalDateTime dataFechamento;
+    private LocalDateTime dateClosing;
 
     @OneToMany(mappedBy = "command", cascade = CascadeType.ALL)
     private List<Orders> orders = new ArrayList<>();
 
     public enum CommandStatus {
-        ABERTA, FECHADA
+        OPEN, CLOSED
     }
 
     @Transient
-    public BigDecimal getValorTotal() {
+    public BigDecimal getTotalValue() {
         return orders.stream()
             .map(Orders::getTotalValue)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-
-    public CommandStatus getStatus() {
-        return status;
-    }
-
-    public List<Orders> getOrders() {
-        return orders;
     }
 }

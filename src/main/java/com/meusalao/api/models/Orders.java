@@ -4,7 +4,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Builder
 @Entity(name = "orders")
 @Table(name = "orders")
 public class Orders {
@@ -28,13 +34,12 @@ public class Orders {
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
 
-    private LocalDateTime dataPedido;
-    private LocalDateTime dataPreparo;
-    private LocalDateTime dataEntrega;
+    private LocalDateTime dateOrder;
+    private LocalDateTime datePrepare;
 
     @PrePersist
     @PreUpdate
-    private void calculateTotalValue() {
+    public void calculateTotalValue() {
         if (pricePerItem != null && amount != null) {
             this.totalValue = pricePerItem.multiply(BigDecimal.valueOf(amount));
         } else {
@@ -46,16 +51,33 @@ public class Orders {
         return totalValue != null ? totalValue : BigDecimal.ZERO;
     }
 
-    public String getDescription() {
-        return description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public void setPricePerItem(BigDecimal pricePerItem) {
+        this.pricePerItem = pricePerItem;
+    }
+
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+    
+    public void setStatus(StatusPedido status) {
+        this.status = status;
+    }
+
+
+    public void setDateOrder(LocalDateTime dateOrder) {
+        this.dateOrder = dateOrder;
     }
 
     public enum StatusPedido {
-        PENDENTE, EM_PREPARO, PRONTO, SERVIDO
+        PENDING, PREPARING, READY, DELIVERED
     }
 }
 

@@ -22,7 +22,7 @@ public class TableController {
 
   @GetMapping("/available")
   public List<TableDTO> getAvailableTables() {
-    return tableRepository.findByStatus(Tables.TableStatus.LIVRE)
+    return tableRepository.findByStatus(Tables.TableStatus.UNOCCUPIED)
       .stream()
       .map(table -> new TableDTO(table.getId(), table.getNumber(), table.getDetails()))
       .toList();

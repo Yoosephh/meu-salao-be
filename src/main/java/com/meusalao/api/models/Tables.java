@@ -3,12 +3,18 @@ package com.meusalao.api.models;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
+import lombok.*;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Builder
 @Table(name = "tables")
 @Entity
 public class Tables {
   public enum TableStatus {
-    LIVRE, OCUPADA, RESERVADA
+    UNOCCUPIED, OCCUPIED, RESERVED
   }
 
   @Id
@@ -29,26 +35,12 @@ public class Tables {
   private String details;
 
   public boolean isOccupied() {
-    return this.commands.stream().anyMatch(c -> c.getStatus() == Command.CommandStatus.ABERTA);
+    return this.commands.stream().anyMatch(c -> c.getStatus() == Command.CommandStatus.OPEN);
   }
-
-  public String getId() {
-    return id;
+  public boolean isReserved() {
+    return this.status == TableStatus.RESERVED;
   }
-
-  public Integer getNumber() {
-    return number;
-  }
-
-  public TableStatus getStatus() {
-    return status;
-  }
-
-  public String getDetails() {
-    return details;
-  }
-
-  public List<Command> getCommands() {
-    return commands;
+  public boolean isUnoccupied() {
+    return this.status == TableStatus.UNOCCUPIED;
   }
 }
